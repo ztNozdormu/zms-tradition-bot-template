@@ -1,5 +1,6 @@
 use server::app;
 
+mod config;
 mod server;
 
 #[tokio::main]

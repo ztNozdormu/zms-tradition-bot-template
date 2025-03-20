@@ -1,0 +1,7 @@
+[server]
+name = "zms-tradition-bot-template"
+address = "127.0.0.1:18888"
+jwt_secret = "dsjfoidsjfisdf54554"
+
+[db]
+url = "sqlite:db.sqlite"

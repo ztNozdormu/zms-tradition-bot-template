@@ -2,29 +2,28 @@ use std::env;
 use std::net::SocketAddr;
 use warp::{self, Filter};
 
+use crate::config;
 use crate::server::routes;
 
 const APPLICATION_NAME: &str = env!("CARGO_PKG_NAME");
 
 #[derive(Clone)]
 pub struct AppState {
-    // TODO
+    #[warn(dead_code)]
+    pub jwt_secret: String,
 }
 
 pub async fn start() {
     // 清理环境变量
-    // let _database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
+    let config = config::load_config().expect("config must be set");
 
-    let bind_address: SocketAddr = env::var("BIND_ADDRESS")
-        .expect("BIND_ADDRESS is not set")
-        .parse()
-        .expect("BIND_ADDRESS is invalid");
+    let bind_address: SocketAddr = config.server.address.parse().expect("地址解析失败");
 
-    let _jwt_secret = env::var("JWT_SECRET").expect("JWT_SECRET must be set");
+    let jwt_secret = config.server.jwt_secret;
 
     // TODO start bot
     // init app
-    let app_state = AppState {};
+    let app_state = AppState { jwt_secret };
 
     let routes = routes::routes(app_state).with(warp::log(APPLICATION_NAME));
 
