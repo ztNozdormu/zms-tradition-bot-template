@@ -13,7 +13,7 @@ pub struct AppState {
 
 pub async fn start() {
     // 清理环境变量
-    let _database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
+    // let _database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
 
     let bind_address: SocketAddr = env::var("BIND_ADDRESS")
         .expect("BIND_ADDRESS is not set")

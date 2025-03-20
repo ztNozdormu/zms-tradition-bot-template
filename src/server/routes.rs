@@ -7,6 +7,7 @@ pub mod handlers;
 pub fn routes(
     state: AppState,
 ) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
+    let _ = state;
     warp::path::end().map(handlers::index::index)
 }
 
