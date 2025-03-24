@@ -2,10 +2,9 @@ use std::net::SocketAddr;
 
 use warp::Filter;
 
-use crate::config;
+use crate::{config, db::repo::init_connection_pool};
 
 pub mod routes;
-
 
 const APPLICATION_NAME: &str = env!("CARGO_PKG_NAME");
 
@@ -18,6 +17,9 @@ pub struct AppState {
 pub async fn start() {
     // 清理环境变量
     let config = config::load_config().expect("config must be set");
+
+    // init db
+    init_connection_pool(config.db.url);
 
     let bind_address: SocketAddr = config.server.address.parse().expect("地址解析失败");
 

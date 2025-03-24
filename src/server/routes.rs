@@ -2,7 +2,6 @@ use warp::{self, Filter};
 
 use super::AppState;
 
-
 pub mod handlers;
 
 pub fn routes(
