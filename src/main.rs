@@ -1,11 +1,10 @@
-use server::app;
 
 mod config;
-mod server;
 mod db;
+mod server;
 
 
 #[tokio::main]
 async fn main() -> () {
-    app::start().await;
+    server::start().await;
 }
