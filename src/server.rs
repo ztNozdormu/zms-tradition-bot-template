@@ -4,6 +4,8 @@ use warp::Filter;
 
 // use crate::{config, db::repo::init_connection_pool};
 use crate::config;
+use crate::db::repo::init_connection_pool;
+
 mod auth;
 mod response;
 pub mod routes;
@@ -21,7 +23,7 @@ pub async fn start() {
     let config = config::load_config().expect("config must be set");
 
     // init db
-    // init_connection_pool(config.db.url);
+    init_connection_pool(config.db.url);
 
     let bind_address: SocketAddr = config.server.address.parse().expect("地址解析失败");
 
