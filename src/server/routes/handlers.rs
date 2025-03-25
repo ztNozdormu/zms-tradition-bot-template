@@ -1,5 +1,4 @@
-pub(crate) mod index;
-
+pub(crate) mod robot;
 
 pub fn index() -> &'static str {
     "Hello world!"

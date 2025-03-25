@@ -4,6 +4,8 @@ use warp::Filter;
 
 // use crate::{config, db::repo::init_connection_pool};
 use crate::config;
+mod auth;
+mod response;
 pub mod routes;
 
 const APPLICATION_NAME: &str = env!("CARGO_PKG_NAME");
