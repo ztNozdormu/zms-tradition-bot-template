@@ -8,7 +8,12 @@ pub fn routes(
     state: AppState,
 ) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
     let _ = state;
-    warp::path::end().map(handlers::index::index)
+    warp::path::end()
+    .map(handlers::index)
+    .or(warp::get()
+    .and(warp::path("api"))
+    .and(warp::path("ping"))
+    .map(handlers::ping))
 }
 
 fn with_state(
