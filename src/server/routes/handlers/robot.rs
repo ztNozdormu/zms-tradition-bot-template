@@ -45,3 +45,15 @@ pub async fn reload_config(_token: String, _state: AppState) -> CusResponse {
 
     Ok(warp::reply::json(&response))
 }
+
+// show the robot reload config
+pub async fn show_config(_token: String, _state: AppState) -> CusResponse {
+    // TODO
+    // valid token
+    // let _user_id = decode_token(&state.jwt_secret, &token).unwrap().user_id();
+
+    let response = RobotResponse::from(());
+
+    Ok(warp::reply::json(&response))
+}
+
