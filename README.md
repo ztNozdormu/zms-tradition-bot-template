@@ -83,3 +83,74 @@ cargo nextest 是一个 Rust 增强测试工具。
 ```bash
 cargo install cargo-nextest --locked
 ```
+
+### desiel 
+
+```bash
+cargo install diesel_cli --no-default-features --features sqlite
+```
+```bash
+DROP TABLE IF EXISTS KeyValueStore;
+
+create TABLE KeyValueStore
+(
+    id             INTEGER     not null
+        primary key,
+    key            VARCHAR(25) not null,
+    value_type     VARCHAR(20) not null,
+    string_value   VARCHAR(255),
+    datetime_value DATETIME,
+    float_value    FLOAT,
+    int_value      INTEGER
+);
+
+create index ix_KeyValueStore_key
+    on KeyValueStore (key);
+    
+diesel migration generate create_KeyValueStore
+
+create table orders
+(
+    id                INTEGER      not null
+        primary key,
+    ft_trade_id       INTEGER      not null
+        references main.trades,
+    ft_order_side     VARCHAR(25)  not null,
+    ft_pair           VARCHAR(25)  not null,
+    ft_is_open        BOOLEAN      not null,
+    ft_amount         FLOAT        not null,
+    ft_price          FLOAT        not null,
+    ft_cancel_reason  VARCHAR(255),
+    order_id          VARCHAR(255) not null,
+    status            VARCHAR(255),
+    symbol            VARCHAR(25),
+    order_type        VARCHAR(50),
+    side              VARCHAR(25),
+    price             FLOAT,
+    average           FLOAT,
+    amount            FLOAT,
+    filled            FLOAT,
+    remaining         FLOAT,
+    cost              FLOAT,
+    stop_price        FLOAT,
+    order_date        DATETIME,
+    order_filled_date DATETIME,
+    order_update_date DATETIME,
+    funding_fee       FLOAT,
+    ft_fee_base       FLOAT,
+    ft_order_tag      VARCHAR(255),
+    constraint _order_pair_order_id
+        unique (ft_pair, order_id)
+);
+
+create index ix_orders_ft_is_open
+    on orders (ft_is_open);
+
+create index ix_orders_ft_trade_id
+    on orders (ft_trade_id);
+
+create index ix_orders_order_id
+    on orders (order_id);
+
+
+```
