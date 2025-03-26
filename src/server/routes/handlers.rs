@@ -1,5 +1,6 @@
 pub(crate) mod robot;
 pub(crate) mod trade;
+pub(crate) mod pair;
 
 pub fn index() -> &'static str {
     "Hello world!"
