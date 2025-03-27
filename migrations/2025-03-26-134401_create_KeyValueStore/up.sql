@@ -14,3 +14,10 @@ create TABLE KeyValueStore
 
 create index ix_KeyValueStore_key
     on KeyValueStore (key);
+
+INSERT INTO KeyValueStore
+(id, "key", value_type, string_value, datetime_value, float_value, int_value)
+VALUES(1, 'bot_start_time', 'datetime', NULL, '2024-10-14 04:48:01.483844', NULL, NULL);
+INSERT INTO KeyValueStore
+(id, "key", value_type, string_value, datetime_value, float_value, int_value)
+VALUES(2, 'startup_time', 'datetime', NULL, '2025-01-08 12:48:39.537774', NULL, NULL);
