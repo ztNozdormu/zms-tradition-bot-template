@@ -92,6 +92,8 @@ cargo install diesel_cli --no-default-features --features sqlite
 
 * diesel migration generate create_tableName
 * diesel migration run
+   如果没有生成schema.rs运行下面一条命令
+* diesel print-schema > src/schema.rs
 * diesel migration revert
 * diesel migration redo run+revert
 -- create keyvaluestore
