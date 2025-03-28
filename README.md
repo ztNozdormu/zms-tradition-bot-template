@@ -123,6 +123,7 @@ INSERT INTO KeyValueStore
 VALUES(2, 'startup_time', 'datetime', NULL, '2025-01-08 12:48:39.537774', NULL, NULL);
 
 ```
+
 -- create orders
 -- diesel migration generate create_orders
 
@@ -168,5 +169,125 @@ CREATE INDEX ix_orders_ft_trade_id ON orders (ft_trade_id);
 CREATE INDEX ix_orders_ft_is_open ON orders (ft_is_open);
 
 
+```
+
+-- create pairlocks
+-- diesel migration generate create_pairlocks
+
+```bash
+-- pairlocks definition
+
+DROP TABLE IF EXISTS pairlocks;
+CREATE TABLE pairlocks (
+	id INTEGER NOT NULL, 
+	pair VARCHAR(25) NOT NULL, 
+	side VARCHAR(25) NOT NULL, 
+	reason VARCHAR(255), 
+	lock_time DATETIME NOT NULL, 
+	lock_end_time DATETIME NOT NULL, 
+	active BOOLEAN NOT NULL, 
+	PRIMARY KEY (id)
+);
+
+CREATE INDEX ix_pairlocks_active ON pairlocks (active);
+
+CREATE INDEX ix_pairlocks_lock_end_time ON pairlocks (lock_end_time);
+
+CREATE INDEX ix_pairlocks_pair ON pairlocks (pair);
+
+```
+
+
+-- create trade_custom_data
+-- diesel migration generate create_trade_custom_data
+
+```bash
+-- trade_custom_data definition
+
+DROP TABLE IF EXISTS trade_custom_data;
+
+CREATE TABLE trade_custom_data (
+	id INTEGER NOT NULL, 
+	ft_trade_id INTEGER, 
+	cd_key VARCHAR(255) NOT NULL, 
+	cd_type VARCHAR(25) NOT NULL, 
+	cd_value TEXT NOT NULL, 
+	created_at DATETIME NOT NULL, 
+	updated_at DATETIME, 
+	PRIMARY KEY (id), 
+	CONSTRAINT _trade_id_cd_key UNIQUE (ft_trade_id, cd_key), 
+	FOREIGN KEY(ft_trade_id) REFERENCES trades (id)
+);
+
+CREATE INDEX ix_trade_custom_data_ft_trade_id ON trade_custom_data (ft_trade_id);
+
+```
+
+
+-- create trades
+-- diesel migration generate create_trades
+
+```bash
+-- trades definition
+
+DROP TABLE IF EXISTS trades;
+
+CREATE TABLE trades (
+	id INTEGER NOT NULL, 
+	exchange VARCHAR(25) NOT NULL, 
+	pair VARCHAR(25) NOT NULL, 
+	base_currency VARCHAR(25), 
+	stake_currency VARCHAR(25), 
+	is_open BOOLEAN NOT NULL, 
+	fee_open FLOAT NOT NULL, 
+	fee_open_cost FLOAT, 
+	fee_open_currency VARCHAR(25), 
+	fee_close FLOAT NOT NULL, 
+	fee_close_cost FLOAT, 
+	fee_close_currency VARCHAR(25), 
+	open_rate FLOAT NOT NULL, 
+	open_rate_requested FLOAT, 
+	open_trade_value FLOAT, 
+	close_rate FLOAT, 
+	close_rate_requested FLOAT, 
+	realized_profit FLOAT, 
+	close_profit FLOAT, 
+	close_profit_abs FLOAT, 
+	stake_amount FLOAT NOT NULL, 
+	max_stake_amount FLOAT, 
+	amount FLOAT NOT NULL, 
+	amount_requested FLOAT, 
+	open_date DATETIME NOT NULL, 
+	close_date DATETIME, 
+	stop_loss FLOAT, 
+	stop_loss_pct FLOAT, 
+	initial_stop_loss FLOAT, 
+	initial_stop_loss_pct FLOAT, 
+	is_stop_loss_trailing BOOLEAN NOT NULL, 
+	max_rate FLOAT, 
+	min_rate FLOAT, 
+	exit_reason VARCHAR(255), 
+	exit_order_status VARCHAR(100), 
+	strategy VARCHAR(100), 
+	enter_tag VARCHAR(255), 
+	timeframe INTEGER, 
+	trading_mode VARCHAR(7), 
+	amount_precision FLOAT, 
+	price_precision FLOAT, 
+	precision_mode INTEGER, 
+	precision_mode_price INTEGER, 
+	contract_size FLOAT, 
+	leverage FLOAT, 
+	is_short BOOLEAN NOT NULL, 
+	liquidation_price FLOAT, 
+	interest_rate FLOAT NOT NULL, 
+	funding_fees FLOAT, 
+	funding_fee_running FLOAT, 
+	PRIMARY KEY (id)
+);
+
+CREATE INDEX ix_trades_is_open ON trades (is_open);
+
+CREATE INDEX ix_trades_pair ON trades (pair);
 
 ```
